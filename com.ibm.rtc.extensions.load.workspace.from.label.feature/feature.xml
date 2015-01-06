@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.ibm.rtc.extensions.load.workspace.from.label.client.feature"
+      label="com.ibm.rtc.extensions.load.workspace.from.label.client.feature"
+      version="1.0.1">
+
+   <description url="http://www.example.com/description">
+      This is the client RTC extension for the Load Workspace From Label plugin
+   </description>
+
+   <plugin
+         id="com.ibm.rtc.extensions.load.workspace.from.label.client"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.ibm.rtc.extensions.load.workspace.from.label.common"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

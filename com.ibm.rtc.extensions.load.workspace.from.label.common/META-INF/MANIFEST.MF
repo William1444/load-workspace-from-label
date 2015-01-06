@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.ibm.rtc.extensions.load.workspace.from.label.common
+Bundle-SymbolicName: com.ibm.rtc.extensions.load.workspace.from.label.common; singleton:=true
+Bundle-Version: 1.0.1
+Bundle-ClassPath: .
+Require-Bundle: org.eclipse.core.runtime,
+ com.ibm.team.build.common
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: com.ibm.rtc.extensions.load.workspace.from.label.common

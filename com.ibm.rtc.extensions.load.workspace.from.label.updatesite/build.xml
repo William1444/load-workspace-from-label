@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="com.ibm.rtc.extensions.load.workspace.from.label.updatesite" basedir=".">
+
+    
+	<target name="updatesite" description="description" >
+		<eclipse.publish.featuresAndBundles
+		    metadataRepository="file:/tmp/repo2"
+		    artifactRepository="file:/tmp/repo2"
+		    compress="true"
+			site="file:/${basedir}/site.xml"
+		    >
+			<features dir="../com.ibm.rtc.extensions.load.workspace.from.label.feature" includes="com.ibm.rtc.extensions.load.workspace.from.label.feature_1.0.0" />
+			<bundles dir="../com.ibm.rtc.extensions.load.workspace.from.label.common" includes="com.ibm.rtc.extensions.load.workspace.from.label.common_1.0.0.jar" />
+			<bundles dir="../com.ibm.rtc.extensions.load.workspace.from.label.client" includes="com.ibm.rtc.extensions.load.workspace.from.label.client_1.0.0.jar" />
+		</eclipse.publish.featuresAndBundles>
+		<mkdir dir="/tmp/repo2/features" />
+		<mkdir dir="/tmp/repo2/plugins" />
+		<copy todir="/tmp/repo2/plugins" file="../com.ibm.rtc.extensions.load.workspace.from.label.common/com.ibm.rtc.extensions.load.workspace.from.label.common_1.0.0.jar" />
+		<copy todir="/tmp/repo2/plugins" file="../com.ibm.rtc.extensions.load.workspace.from.label.client/com.ibm.rtc.extensions.load.workspace.from.label.client_1.0.0.jar" />
+		<copy todir="/tmp/repo2/features" file="../com.ibm.rtc.extensions.load.workspace.from.label.feature/com.ibm.rtc.extensions.load.workspace.from.label.feature_1.0.0.jar" />	
+
+    </target>
+	
+
+</project>

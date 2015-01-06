@@ -2,11 +2,14 @@
 **/bin
 **/javaCompiler...args
 **/target/
+**/config/host/local
+
 # Package Files #
 *.jar
 *.war
 *.ear
 **/update.zip
+**/load.workspace.from.label.client*.zip
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*

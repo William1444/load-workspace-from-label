@@ -1,0 +1,5 @@
+<project name="classpath.include">
+	<path id="build.classpath">
+		<path refid="build.targetEnvironment.classpath" />
+	</path>	
+</project>

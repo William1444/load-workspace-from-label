@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="buildEngineParticipants" name="buildEngineParticipant" schema="schema/buildEngineParticipants.exsd"/>
+   <extension
+         id="jazzBuildEngine"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+         	class="com.ibm.team.build.internal.engine.BuildEngineApplication">
+         </run>
+      </application>
+   </extension>
+   
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="com.ibm.team.build.engine.jazzBuildEngine"
+            name="com.ibm.team.build.engine.jazzBuildEngine">
+         <property
+               	name="appName"
+            	value="com.ibm.team.build.engine.jazzBuildEngine">
+        	</property>
+    	</product>
+	</extension>
+
+	<extension point="com.ibm.team.build.engine.buildEngineParticipants">
+     <buildEngineParticipant
+        id="com.ibm.rtc.extensions.load.workspace.from.label.engine.PreBuildParticipantLoadWorkspaceFromBuildLabel"
+        class="com.ibm.rtc.extensions.load.workspace.from.label.engine.PreBuildParticipantLoadWorkspaceFromBuildLabel" 
+        buildPhase="PRE_BUILD"
+        configurationElementId="com.ibm.rtc.extensions.load.workspace.from.label"
+        />	
+	</extension>
+	
+</plugin>

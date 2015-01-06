@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	
+	<!--buildDefinitionTemplate -->
+	<extension point="com.ibm.team.build.common.buildDefinitionTemplates">
+		<buildDefinitionTemplate
+    		id="com.ibm.rtc.extensions.load.workspace.from.label.common.buildFromLabelBuildTemplate"
+        	description="A build that loads a workspace from build label"
+        	name="Load workspace from label and build">
+			<buildConfigurationElement id="com.ibm.team.build.properties"/>
+			<buildConfigurationElement id="com.ibm.team.build.general"/>
+       		<buildConfigurationElement id="com.ibm.rtc.extensions.load.workspace.from.label"/>
+       		<buildConfigurationElement id="com.ibm.team.build.jazzscm"/>
+       		<buildConfigurationElement id="com.ibm.team.build.cmdline"/>
+       		<buildConfigurationElement id="com.ibm.team.build.ant"/>
+       		<buildConfigurationElement id="com.ibm.team.build.email"/>
+       	</buildDefinitionTemplate>
+	</extension>
+	
+	<!--buildConfigurationElement-->
+	<extension point="com.ibm.team.build.common.buildConfigurationElements">
+    	
+    	<buildConfigurationElement
+        	id="com.ibm.rtc.extensions.load.workspace.from.label"
+	        buildPhase="PRE_BUILD"
+	        description="Given a build label and build, creates a local workspace for the current build to use."
+	        name="Load Workspace from Build Label" >
+	        
+	        <genericProperty
+	        	genericEditAllowed="false"
+            	name="com.ibm.rtc.extensions.load.workspace.from.label.common.buildLabel"
+           		description="The name of the build definiton that contains the label to load the workspace from." 
+                required="true"
+                />
+	        
+	        <genericProperty
+	        	genericEditAllowed="false"
+            	name="com.ibm.rtc.extensions.load.workspace.from.label.common.buildDefinitionId"
+           		description="The name of the build definiton that contains the label to load the workspace from." 
+                required="true"
+                />
+
+            </buildConfigurationElement> 
+            
+	        
+	</extension>
+	
+</plugin>

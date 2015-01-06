@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="com.ibm.team.build.engine">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="com.ibm.team.build.engine" id="buildEngineParticipants" name="Build Engine Participants"/>
+      </appInfo>
+      <documentation>
+         This extension point allows extenders to provide code to run as a participant in the build loop in the jazz build engine.
+
+The extension provider implements a class that extends the &lt;code&gt;AbstractPreBuildParticipant&lt;/code&gt;, &lt;code&gt;AbstractBuildParticipant&lt;/code&gt;, or &lt;code&gt;AbstractPostBuildParticipant&lt;/code&gt; depending on the nature of the code (pre-build, build, or post-build).
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence minOccurs="1" maxOccurs="unbounded">
+            <element ref="buildEngineParticipant"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="buildEngineParticipant">
+      <complexType>
+         <attribute name="configurationElementId" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The id of the configuration element that this participant supports.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="buildPhase" use="required">
+            <annotation>
+               <documentation>
+                  The build phase that the extension participates in.
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="PRE_BUILD">
+                  </enumeration>
+                  <enumeration value="BUILD">
+                  </enumeration>
+                  <enumeration value="POST_BUILD">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The fully qualified name of the Java class that extends &lt;code&gt;AbstractPreBuildParticipant&lt;/code&gt;, &lt;code&gt;AbstractBuildParticipant&lt;/code&gt;, or &lt;code&gt;AbstractPostBuildParticipant&lt;/code&gt;.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The unique id of the build engine participant.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         0.6
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         The following example shows a declaration of this extension:
+&lt;p&gt;
+&lt;pre&gt;
+ &lt;extension
+       point=&quot;com.ibm.team.build.engine.buildEngineParticipants&quot;&gt;
+     &lt;buildEngineParticipant
+      id=&quot;com.ibm.team.build.internal.engine.AntBuildParticipant&quot;
+           class=&quot;com.ibm.team.build.internal.engine.AntBuildParticipant&quot;
+         buildPhase=&quot;BUILD&quot;
+           configurationElementId=&quot;com.ibm.team.build.ant&quot;&gt;
+     &lt;/buildEngineParticipant&gt;
+ &lt;/extension&gt;
+&lt;/pre&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         Licensed Materials - Property of IBM
+(c) Copyright IBM Corporation 2007, 2008. All Rights Reserved. 
+
+Note to U.S. Government Users Restricted Rights:  Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+      </documentation>
+   </annotation>
+
+</schema>

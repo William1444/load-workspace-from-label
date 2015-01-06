@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	
+	<!--The editor tab in the build configuration-->
+	<extension point="com.ibm.team.build.ui.buildConfigurationElementEditors">
+    	<buildConfigurationElementEditor
+        	configurationElementId="com.ibm.rtc.extensions.load.workspace.from.label"
+        	name="Load Workspace From Build Label"
+        	class="com.ibm.rtc.extensions.load.workspace.from.label.client.ConfigurationElementEditorFactory" 
+    	/>
+    	
+	</extension>
+	
+
+</plugin>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description name="com.ibm.rtc.extensions.load.workspace.from.label.updatesite" url="file:///tmp/site">
+      local update site for the load.workspace.from.label plugin
+   </description>
+   <feature url="features/com.ibm.rtc.extensions.load.workspace.from.label.client.feature_1.0.1.jar" id="com.ibm.rtc.extensions.load.workspace.from.label.client.feature" version="1.0.1"/>
+</site>

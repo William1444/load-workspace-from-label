@@ -1,0 +1,14 @@
+<project name="classpath.include">	
+	<path id="build.common.classpath">
+		<fileset dir="${build.common.plugin}">
+			<include name="${build.common.plugin.jar}"/>
+		</fileset>
+	</path>
+	
+	<path id="build.classpath">
+		<path refid="build.targetEnvironment.classpath" />
+		<path refid="build.common.classpath" />
+	</path>	
+	
+
+</project>
