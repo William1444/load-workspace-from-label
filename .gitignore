@@ -5,7 +5,9 @@
 **/config/host/local
 
 # Package Files #
-*.jar
+/*.jar
+/bin/**/*.jar
+/target/**/*.jar
 *.war
 *.ear
 **/update.zip

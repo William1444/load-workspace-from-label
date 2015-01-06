@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Standard Ant Tasks">
+	<macrodef name="clean">
+		<attribute name="dir"/>
+		<sequential>	
+			
+			<delete includeemptydirs="true" failonerror="false">
+				<fileset dir="@{dir}" includes="**/*" />
+			</delete>
+			
+			<mkdir dir="@{dir}" />
+		
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="compile">
+		<attribute name="src" />
+		<attribute name="classes" />
+		<attribute name="classpathrefid" />
+		<attribute name="resources.dir" default=""/>
+		<sequential>
+
+			<clean dir="@{classes}" />
+
+			<javac srcdir="@{src}" destdir="@{classes}" debug="true" includeantruntime="false">
+				<classpath refid="@{classpathrefid}" />
+			</javac>
+			
+			<copy todir="@{classes}">
+				<fileset dir="@{src}">
+					<include name="**/*.properties" />
+				</fileset>
+			</copy>
+			
+			<if>
+	            <available file="@{resources.dir}" type="dir" />
+	            <then>
+	            	<echo message="copying @{resources.dir} to @{classes}"/>
+	            	<copy todir="@{classes}" overwrite="true">
+	    				<fileset dir="@{resources.dir}">
+							<include name="**/*.xsd" />
+    					</fileset>
+					</copy>					
+	            </then>
+	        </if>	
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="compile-resources">
+		<attribute name="resources.dir"/>
+		<attribute name="classes.dir"/>
+		<attribute name="filter.token.id"/>
+		<sequential>
+			<if>
+	            <available file="@{resources.dir}" type="dir" />
+	            <then>
+	            	<copy todir="@{classes.dir}" overwrite="true">
+						<fileset dir="@{resources.dir}" includes="**/*.properties"/>
+	            		<fileset dir="@{resources.dir}" includes="**/*.vm"/>
+						<filterset refid="@{filter.token.id}" />
+					</copy>
+	            	<copy todir="@{classes.dir}" overwrite="true">
+	            		<fileset dir="@{resources.dir}" includes="**/captcha-images/*.jpg"/>
+					</copy>					
+	            </then>
+	        </if>	
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="jar-rest-common">
+		<attribute name="destDir" default="${build.weblogic.ear.dir}/${atg.comm.ear.name}"/>
+		<attribute name="moduleDir"/>
+		<attribute name="classesDir" default="${build.module.main.classes}"/>
+		<sequential>
+
+			<mkdir dir="@{destDir}" />
+			<mkdir dir="@{destDir}/${atg.comm.rest.war.name}" />
+			<mkdir dir="@{destDir}/${atg.comm.rest.war.name}/WEB-INF" />
+			<mkdir dir="@{destDir}/${atg.comm.rest.war.name}/WEB-INF/lib" />
+			
+			<jar destfile="@{destDir}/${atg.comm.rest.war.name}/WEB-INF/lib/${atg.rest.common.jar.name}" basedir="@{moduleDir}/@{classesDir}" includes="**/*.class" />
+
+			<copy todir="@{destDir}/${atg.comm.rest.war.name}/WEB-INF/lib/">
+				<fileset dir="@{moduleDir}/lib">
+					<include name="*.jar" />
+				</fileset>
+			</copy>
+		
+		</sequential>
+	</macrodef>
+
+	<macrodef name="echo-timestamp">
+		<sequential>
+	      	<tstamp>  
+	        	<format property="TODAY" pattern="dd/MM/yyyy hh:mm:ss" />  
+	        </tstamp>
+			<echo message="${TODAY}"/>
+		</sequential>
+	</macrodef>
+
+</project>

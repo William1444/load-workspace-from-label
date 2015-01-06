@@ -1,0 +1,77 @@
+<project name="jazz">
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${build.dir}/lib/ant-contrib-1.0b3.jar" />
+	<property name="runOnJazz" value="${build.use.runOnJazz}"/>
+	
+	<!-- These task definitions make the Jazz ant tasks available to this build file.-->
+	<if>
+		<equals arg1="${runOnJazz}" arg2="true" />
+		<then>
+			<taskdef name="logPublisher" classname="com.ibm.team.build.ant.task.LogPublisherTask" />
+	
+			<taskdef name="artifactFilePublisher" classname="com.ibm.team.build.ant.task.ArtifactFilePublisherTask" />
+	
+			<taskdef name="filePublisher" classname="com.ibm.team.build.ant.task.FilePublisherTask" />
+	
+			<taskdef name="jdtCompileLogPublisher" classname="com.ibm.team.build.ant.task.JdtCompileLogPublisherTask" />
+	
+			<taskdef name="startBuildActivity" classname="com.ibm.team.build.ant.task.StartBuildActivityTask" />
+	
+			<taskdef name="completeBuildActivity" classname="com.ibm.team.build.ant.task.CompleteBuildActivityTask" />
+		</then>
+	</if>
+
+	<macrodef name="jbe-startlog">
+		<sequential>
+			<echo>startBuildActivity label="Start to generate, compile and package schemas."</echo>	
+			<if>
+				<equals arg1="${runOnJazz}" arg2="false" />
+				<then>
+					<echo message="Skipping jazz startBuildActivity" />
+				</then>
+				<else>
+					<startBuildActivity activityIdProperty="CompileAndPackageSchemasID" label="I am going to be busy for a while" buildResultUUID="${buildResultUUID}" repositoryAddress="${repositoryAddress}" userId="${userId}" passwordFile="${passwordFile}" />
+				</else>
+			</if>
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="jbe-stoplog">
+		<sequential>
+			<echo>completeBuildActivity label="Compiled and packaged schemas"</echo>
+			<if>
+				<equals arg1="${runOnJazz}" arg2="false" />
+				<then>
+					<echo message="Skipping jazz startBuildActivity" />
+				</then>
+				<else>	
+					<completeBuildActivity activityId="${CompileAndPackageSchemasID}" buildResultUUID="${buildResultUUID}" repositoryAddress="${repositoryAddress}" userId="${userId}" passwordFile="${passwordFile}" />
+				</else>
+			</if>
+			<echo>DONE...</echo>			
+		</sequential>
+	</macrodef>
+
+	<macrodef name="jazzBuildActivity">
+		<attribute name="message" />
+		<sequential>
+			<if>
+				<equals arg1="${runOnJazz}" arg2="false" />
+				<then>
+					<echo message="Skipping jazz completeBuildActivity" />
+				</then>
+				<else>
+					<echo message="startBuildActivity with userId - ${userId} with passwordFile - ${passwordFile}" />
+					<startBuildActivity label="@{message}"
+						parentActivityId="${CompileAndPackageSchemasID}"
+						autocomplete="true"
+						buildResultUUID="${buildResultUUID}"
+						repositoryAddress="${repositoryAddress}"
+						userId="${userId}"
+						passwordFile="${passwordFile}" />
+				</else>
+			</if>
+	    </sequential>
+	</macrodef>
+
+</project>

@@ -1,0 +1,134 @@
+<project xmlns:jacoco="antlib:org.jacoco.ant">
+	<property name="build.common" value="../" />
+	
+	<import file="standard.xml"/>
+	
+	<path id="groovy.class.path">
+		<fileset dir="${build.common}/lib">
+			<include name="httpbuilder/*.jar" />
+			<include name="asm-3.2.jar" />
+		</fileset>
+	</path>
+	
+	<path id="jacoco.classpath">
+		<fileset dir="${build.common}/lib/jacoco">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+	<path id="groovy.class.path">
+		<fileset dir="${build.common}/lib">
+			<include name="httpbuilder/*.jar" />
+			<include name="asm-3.2.jar" />
+		</fileset>
+	</path>
+	
+	<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" classpathref="groovy.class.path" />
+	<taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${build.common}/lib/ant-contrib-1.0b3.jar" />
+	
+	<taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml" classpathref="jacoco.classpath" />
+		
+	<macrodef name="junit-module">
+		<attribute name="test.xml.reports.dir" />
+		<attribute name="classes.test.dir" />
+		<attribute name="module.classpath" />
+		<attribute name="fork" default="false" />
+		<attribute name="maxmemory" default="1024m"/>
+		<attribute name="forkmode" default="perBatch"/>
+		<attribute name="permsize" default="128m"/>
+		<attribute name="maxpermsize" default="128m"/>
+		<attribute name="atg.excluded.dir" default="" />
+
+		<sequential>
+			<junit 
+				printsummary="yes" 
+				fork="@{fork}"
+				maxmemory="@{maxmemory}"
+				forkmode="@{forkmode}"
+				>
+				<jvmarg value="-XX:PermSize=@{permsize}"/>
+				<jvmarg value="-XX:MaxPermSize=@{maxpermsize}"/>
+				<formatter type="xml" />
+				<classpath path="@{classes.test.dir}" />
+				<classpath refid="@{module.classpath}" />
+				<classpath refid="classpath.spock" />
+
+				<batchtest todir="@{test.xml.reports.dir}">
+					<fileset dir="@{classes.test.dir}" includes="**/*Specification.class,**/*Test.class" excludes="${excludesPath}" />
+				</batchtest>
+			</junit>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="junit-jacoco-module">
+		<attribute name="test.xml.reports.dir" />
+		<attribute name="classes.test.dir"  />
+		<attribute name="module.classpath" />
+		<attribute name="result.exec.file" />
+		<sequential>
+			<mkdir dir="@{test.xml.reports.dir}" />
+			<symlink link="@{test.xml.reports.dir}" resource="${test.xml.reports.dir}"/>
+			<jacoco:coverage destfile="@{result.exec.file}">
+				<junit printsummary="no" fork="true" forkmode="once">
+					<formatter type="xml" />
+					<classpath path="@{classes.test.dir}" />
+					<classpath refid="@{module.classpath}" />
+					<classpath refid="classpath.spock" />
+
+					<batchtest todir="@{test.xml.reports.dir}">
+						<fileset dir="@{classes.test.dir}" includes="**/*Specification.class" />
+					</batchtest>
+				</junit>
+			</jacoco:coverage>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="junit-jacoco-module-wcs">
+		<attribute name="test.xml.reports.dir" />
+		<attribute name="classes.test.dir1"  />
+		<attribute name="classes.test.dir2"  />
+		<attribute name="module.classpath" />
+		<attribute name="result.exec.file" />
+		<sequential>
+			<mkdir dir="@{test.xml.reports.dir}" />
+			<symlink link="@{test.xml.reports.dir}" resource="${test.xml.reports.dir}"/>
+			<jacoco:coverage destfile="@{result.exec.file}">
+				<junit printsummary="yes" fork="true" forkmode="once">
+					<formatter type="xml" />
+					<classpath refid="classpath.spock" />
+					<classpath path="@{classes.test.dir1}" />
+					<classpath path="@{classes.test.dir2}" />
+					<classpath refid="@{module.classpath}" />
+
+					<batchtest todir="@{test.xml.reports.dir}">
+						<fileset dir="@{classes.test.dir1}" includes="**/*Specification.class" />
+						<fileset dir="@{classes.test.dir2}" includes="**/*Specification.class" />
+					</batchtest>
+				</junit>
+			</jacoco:coverage>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="jacoco-report">
+		<attribute name="jacoco.result.exec.file" />
+		<attribute name="jacoco.reports.dir" />
+		<attribute name="jacoco.result.classes.dir" />
+		<attribute name="src.dir" />
+		<sequential>
+			<jacoco:report>
+				<executiondata>
+					<file file="@{jacoco.result.exec.file}" />
+				</executiondata>
+				<structure name="Report against @{jacoco.result.exec.file}">
+					<classfiles>
+						<fileset dir="@{jacoco.result.classes.dir}" />
+					</classfiles>
+					<sourcefiles encoding="UTF-8">
+						<fileset dir="@{src.dir}" />
+					</sourcefiles>
+				</structure>
+			</jacoco:report>
+		</sequential>
+	</macrodef>
+
+</project>
